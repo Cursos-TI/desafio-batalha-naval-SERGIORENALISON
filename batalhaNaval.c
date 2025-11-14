@@ -2,61 +2,81 @@
 
 int main() {
 
-    int tabuleiro[10][10];
+    // -----------------------------------------------------
+    // MATRIZ DO CONE (5x5)
+    // -----------------------------------------------------
+    int cone[5][5] = {0}; // Inicializa tudo com zero
 
-    // Inicializa toda a matriz com 0 (água)
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 10; j++) {
-            tabuleiro[i][j] = 0;
+    // Preenchendo o cone:
+    // i = linha | j = coluna
+    for(int i = 0; i < 5; i++){
+        for(int j = 0; j < 5; j++){
+
+            // Região do cone:
+            // O cone deve aumentar conforme a linha desce.
+            if( (j >= 2 - i) && (j <= 2 + i) && i <= 2 ){
+                cone[i][j] = 1;
+            }
         }
     }
 
-    // ---------------------------------------------------
-    // POSICIONAMENTO DE NAVIOS
-    // ---------------------------------------------------
+    // -----------------------------------------------------
+    // MATRIZ DA CRUZ (5x5)
+    // -----------------------------------------------------
+    int cruz[5][5] = {0};
 
-    // NAVIO 1 – VERTICAL (tamanho 4)
-    int linha_inicio_v = 1;
-    int coluna_v = 3;
+    for(int i = 0; i < 5; i++){
+        for(int j = 0; j < 5; j++){
 
-    for (int i = 0; i < 4; i++) {
-        tabuleiro[linha_inicio_v + i][coluna_v] = 3;
+            // Linha central ou coluna central
+            if(i == 2 || j == 2){
+                cruz[i][j] = 1;
+            }
+        }
     }
 
-    // NAVIO 2 – HORIZONTAL (tamanho 5)
-    int linha_h = 6;
-    int coluna_inicio_h = 2;
+    // -----------------------------------------------------
+    // MATRIZ DO OCTAEDRO (5x5)
+    // -----------------------------------------------------
+    int octaedro[5][5] = {0};
 
-    for (int i = 0; i < 5; i++) {
-        tabuleiro[linha_h][coluna_inicio_h + i] = 3;
+    for(int i = 0; i < 5; i++){
+        for(int j = 0; j < 5; j++){
+
+            // Fórmula do octaedro (distância de Manhattan)
+            // Centro: (2,2)
+            int distancia = abs(i - 2) + abs(j - 2);
+
+            if(distancia <= 1){
+                octaedro[i][j] = 1;
+            }
+        }
     }
 
-    // NAVIO 3 – DIAGONAL PRINCIPAL (↘) (tamanho 4)
-    int linha_diag1 = 2;
-    int coluna_diag1 = 2;
+    // -----------------------------------------------------
+    // EXIBINDO AS MATRIZES
+    // -----------------------------------------------------
 
-    for (int i = 0; i < 4; i++) {
-        tabuleiro[linha_diag1 + i][coluna_diag1 + i] = 3;
+    printf("=== HABILIDADE EM CONE ===\n");
+    for(int i = 0; i < 5; i++){
+        for(int j = 0; j < 5; j++){
+            printf("%d ", cone[i][j]);
+        }
+        printf("\n");
     }
 
-    // NAVIO 4 – DIAGONAL SECUNDÁRIA (↙) (tamanho 4)
-    int linha_diag2 = 2;
-    int coluna_diag2 = 7;
-
-    for (int i = 0; i < 4; i++) {
-        tabuleiro[linha_diag2 + i][coluna_diag2 - i] = 3;
+    printf("\n=== HABILIDADE EM CRUZ ===\n");
+    for(int i = 0; i < 5; i++){
+        for(int j = 0; j < 5; j++){
+            printf("%d ", cruz[i][j]);
+        }
+        printf("\n");
     }
 
-    // ---------------------------------------------------
-    // EXIBIÇÃO DO TABULEIRO COMPLETO
-    // ---------------------------------------------------
-
-    printf("=== BATALHA NAVAL - NIVEL AVENTUREIRO ===\n\n");
-    printf("Legenda: 0 = Agua | 3 = Navio\n\n");
-
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 10; j++) {
-            printf("%d ", tabuleiro[i][j]);
+    printf("\n=== HABILIDADE EM OCTAEDRO ===\n");
+    for(int i = 0; i < 5; i++){
+        for(int j = 0; j < 5; j++){
+            printf("%d ", octaedro[i][j]);
         }
         printf("\n");
     }
